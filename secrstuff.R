@@ -2,6 +2,7 @@ library("sp")
 library('rgdal')
 library("rgeos")
 library("raster")
+library("fields")
 
 rastSarea <- raster(ncol=20, nrow=40) ### this is a raster object
 extent(rastSarea) <- c(0,20,0,40)
@@ -10,13 +11,18 @@ rastSarea[] <- 1
 plot(rastSarea)
 plot(Sarea)
 
-#for creating individuals
+#for creating 30 individuals
+ind.mat<- matrix(nrow=30,ncol=2)
 x<- runif(30,min = 0, max =20)
 y<- runif(30,min = 0, max = 40)
 individuals<- points(x,y, pch = 16, col = "orange")
+id<-1:30
+ind.mat[,1]<- x #matrix for individual locations
+ind.mat[,2]<-y
 
-#for creating camera trap assay
-rect(5,15,15,25)
+
+#for creating camera trap assay, 36 camera locations
+rect(5,15,15,25)## marks out areas
 points(5,15, pch = 1, col="black") # this is a very crude way, i think this can be done better in a loop
 points(5,17, pch = 1, col="black")
 points(5,19, pch = 1, col="black")
@@ -53,7 +59,6 @@ points(13,21, pch = 1, col="black")
 points(13,23, pch = 1, col="black")
 points(13,25, pch = 1, col="black")
 
-
 points(15,15, pch = 1, col="black")
 points(15,17, pch = 1, col="black")
 points(15,19, pch = 1, col="black")
@@ -78,5 +83,7 @@ Go<- 0.2
 sigma<- 2500
 beta<- -1/(2*(sigma^2))
 
-prob.mat<-range(Go*exp((dist.mat^2)*beta)) #probability matrix based on half normal function of distance values.
+prob.mat<-range(Go*exp((dist.mat^2)*beta)) #probability matrix based on half normal function of distance values. This is where I'm getting stuck since all my values are quite similar.
+
+
 
