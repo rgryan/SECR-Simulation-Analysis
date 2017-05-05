@@ -85,5 +85,56 @@ beta<- -1/(2*(sigma^2))
 
 prob.mat<-range(Go*exp((dist.mat^2)*beta)) #probability matrix based on half normal function of distance values. This is where I'm getting stuck since all my values are quite similar.
 
+prob.mat<-Go*exp((dist.mat^2)*beta) #probability matrix based on half normal function of distance values.
+range(Go*exp((dist.mat^2)*beta))
+
+
+
+capthist.mat<- matrix(nrow = nrow(prob.mat), ncol = ncol(prob.mat)) 
+
+  for (i in 1:nrow(prob.mat)){
+    for(j in 1:ncol(prob.mat)) 
+      capthist.mat[i,j]<-rbinom(1,1,prob.mat[i,j])
+  
+}
+
+capthist.array<- array(dim=c(36,30,10))
+
+for(k in 1:10){
+
+for(i in 1:36){
+    
+for(j in 1:30){ capthist.array[i,j,k]<-rbinom(1,1,prob.mat[i,j])
+}}}
+
+capthist.array
+
+?as.data.frame.array
+
+df<- as.data.frame.table(capthist.array)
+
+dam<-subset(df, Freq==1)
+colnames(dam)<- c("Individuals", "Detector", "Occasion", "Capture")
+head(dam)
+
+library("plyr")
+library("reshape2")
+dam1<- melt(capthist.array)
+colnames(dam1)<- c("Individuals", "Detector", "Occasion", "Capture")
+head(dam1)
+dam2 <- subset(dam1, Capture == 1) #
+nrow(dam1)
+nrow(dam2)
+head(dam2)
+capt.data<- dam2 
+capt.data<- capt.data[,c(1,3,2,4)]
+capt.data<- capt.data[,-4]
+head(capt.data) #capture histroy in the form required for SECR
+
+det.data<- as.data.frame(camloc.mat)
+det.data$detector<- 1:36
+colnames(det.data)<- c("X","Y", "Detector")
+det.data
+det.data<-det.data[,c(3,1,2)]# detection data in the form of detector layout format
 
 
