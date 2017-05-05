@@ -61,3 +61,22 @@ points(15,21, pch = 1, col="black")
 points(15,23, pch = 1, col="black")
 points(15,25, pch = 1, col="black")
 
+
+xpoints<- c(5,5,5,5,5,5,7,7,7,7,7,7,9,9,9,9,9,9,11,11,11,11,11,11,13,13,13,13,13,13,15,15,15,15,15,15)
+length(xpoints)
+ypoints<- c(15,17,19,21,23,25,15,17,19,21,23,25,15,17,19,21,23,25,15,17,19,21,23,25,15,17,19,21,23,25,15,17,19,21,23,25)
+length(ypoints)
+camloc<- 1:36
+
+camloc.mat<- matrix(nrow=36,ncol=2) #matrix storing camera locations
+camloc.mat[,1]<-xpoints
+camloc.mat[,2]<-ypoints
+
+dist.mat<-rdist(camloc.mat,ind.mat) #matrix with distance between points
+
+Go<- 0.2
+sigma<- 2500
+beta<- -1/(2*(sigma^2))
+
+prob.mat<-range(Go*exp((dist.mat^2)*beta)) #probability matrix based on half normal function of distance values.
+
