@@ -11,6 +11,8 @@ rastSarea[] <- 1
 plot(rastSarea)
 plot(Sarea)
 
+set.seed(1234)
+
 #for creating 30 individuals
 ind.mat<- matrix(nrow=30,ncol=2)
 x<- runif(30,min = 0, max =20)
@@ -80,10 +82,8 @@ camloc.mat[,2]<-ypoints
 dist.mat<-rdist(camloc.mat,ind.mat) #matrix with distance between points
 
 Go<- 0.2
-sigma<- 2500
+sigma<- 2.5
 beta<- -1/(2*(sigma^2))
-
-prob.mat<-range(Go*exp((dist.mat^2)*beta)) #probability matrix based on half normal function of distance values. This is where I'm getting stuck since all my values are quite similar.
 
 prob.mat<-Go*exp((dist.mat^2)*beta) #probability matrix based on half normal function of distance values.
 range(Go*exp((dist.mat^2)*beta))
@@ -120,14 +120,14 @@ head(dam)
 library("plyr")
 library("reshape2")
 dam1<- melt(capthist.array)
-colnames(dam1)<- c("Individuals", "Detector", "Occasion", "Capture")
+colnames(dam1)<- c("Detector", "Individual", "Occasion", "Capture")
 head(dam1)
 dam2 <- subset(dam1, Capture == 1) #
 nrow(dam1)
 nrow(dam2)
 head(dam2)
 capt.data<- dam2 
-capt.data<- capt.data[,c(1,3,2,4)]
+capt.data<- capt.data[,c(2,1,3,4)]
 capt.data<- capt.data[,-4]
 head(capt.data) #capture histroy in the form required for SECR
 
@@ -136,5 +136,4 @@ det.data$detector<- 1:36
 colnames(det.data)<- c("X","Y", "Detector")
 det.data
 det.data<-det.data[,c(3,1,2)]# detection data in the form of detector layout format
-
 
